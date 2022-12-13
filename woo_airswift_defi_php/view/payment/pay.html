@@ -1,0 +1,188 @@
+
+<!--
+ * @FileDescription:
+ * @Author: ruokun Yin
+ * @Date: 2022-07-06 13:46:10
+ * @LastEditors: jianguo Wang
+ * @LastEditTime: 2022-11-10 17:23:08
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title i18n="title">Pay</title>
+    <link rel="stylesheet" href="/static/payment/css/reset.css">
+    <link rel="stylesheet" href="/static/payment/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/static/drop_down/css/style.css" />
+
+    <noscript><link rel="stylesheet" type="text/css" href="/static/drop_down/css/noJS.css" /></noscript>
+    <script type="text/javascript" src="/static/drop_down/js/modernizr.custom.79639.js"></script>
+    <script src="/static/payment/js/jquery-1.8.3.min.js?v=1"></script>
+    <script src="/static/payment/js/utils.js"></script>
+    <script src="/static/payment/js/layer/layer.js"></script>
+    <script src="/static/payment/js/jquery.qrcode.min.js?v=1"></script>
+</head>
+<body>
+
+<div class="main">
+    <div class="headBar">
+        <div class="title-centain">
+            <span>Pay</span>
+        </div>
+    </div>
+
+    <div class="pcHeader">
+        <img src="/static/payment/icon/logoNew.png" alt="" srcset="">
+        <span>|</span>
+        <span i18n="title">Pay</span>
+    </div>
+
+    <div class="body">
+
+        <div class="body_header">
+            <img class="pc_status_04" style="width: 48px;height:48px;margin: 24px;;" src="/static/payment/img/pc-loading.png" alt="">
+
+            <div >
+                <p class="pc_status_00" style=";">
+                    <span class="pcTipFont0">Order ID: </span>
+                    <span class="pcTipFont1"><b class="orderSn">{$order['order_id']}</b></span>
+                </p>
+                <p class="pc_status_00" style="margin-top: 10px;">
+                    <span class="pcTipFont0">Payment Num：</span>
+                    <span class="pcTipFont1"><b class="orderSn">{$order['payment_num']}</b></span>
+                </p>
+                <p class="pc_status_00" style="margin-top: 10px;">
+                    <span class="pcTipFont0">Total USD: </span>
+                    <span class="pcTipFont1"><b class="orderSn">{$order['usd_amount']}</b></span>
+                </p>
+                <p class="pc_status_00" style="margin-top: 10px;">
+                    <span class="pcTipFont0">Total {$order['crypto_currency']}: </span>
+                    <span class="pcTipFont1" style="width: 300px"><b class="orderSn">{$order['crypto_amount']}</b> <span  style="margin-left: 10px;cursor: pointer;color: #1E9FFF" onclick="copy_text(2)">copy</span></span>
+                </p>
+            </div>
+        </div>
+        <div class="pc-centainer">
+            <div class="pc_status_01" style=";">
+                <div class="typeContainerPc" style="justify-content: center;">
+
+                </div>
+                <div id="hiddAddrPc" style=""> </div>
+                <div style="margin-top: 14px;font-size: 20px;padding-bottom: 40px;">
+                    <?php if( $order['status'] === 'success' ): ?>
+                    Pay Success!
+                    <?php elseif($order['status'] === 'closed'): ?>
+                    Time Out!
+                    <?php else: ?>
+                    <div style="display: flex;flex-direction: column;justify-content: center;align-items: center">
+                        <div id="qrcode1">
+                        </div>
+                        <div style="margin-top: 30px;display: flex;flex-direction: row;">
+                            <div>{$order['collection_address']}</div>
+                            <div style="margin-left: 10px;cursor: pointer;color: #1E9FFF" onclick="copy_text(1)">copy</div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    new QRCode(document.getElementById("qrcode1"), "<?php echo $order['collection_address'];?>");
+</script>
+</body>
+<script>
+    function copy_text(type = 1) {
+        let content = type === 1? "<?php echo $order['collection_address'];?>":"<?php echo $order['crypto_amount'];?>";
+        if(typeof (navigator.clipboard) != 'undefined' && window.isSecureContext){
+            navigator.clipboard.writeText(content);
+            if(content === ''){
+                layer.msg('copy failed!', {icon: 5});
+                return false;
+            }
+            else{
+                layer.msg('Copy succeeded!', {icon: 6});
+                return true;
+            }
+        }
+        else{
+            const input = document.createElement('input');
+            input.setAttribute('readonly', 'readonly');
+            input.setAttribute('value',content );
+            document.body.appendChild(input);
+            input.select();
+            let re = document.execCommand('copy');
+            document.body.removeChild(input);
+            if (re) {
+                layer.msg('Copy succeeded!', {icon: 6});
+                return true;
+            }
+            else{
+                layer.msg('copy failed!', {icon: 5});
+                return false;
+            }
+        }
+    }
+
+    function GetRequest(){
+        let url = location.search;   //获取url中"?"符后的字串
+        let theRequest = {};
+        if (url.indexOf("?") != -1){
+            let str = url.substr(1);
+            let strs = str.split("&");
+            for (let i = 0; i < strs.length; i++){
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+
+                //解决中文参数问题
+                theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+            }
+        }
+        form_data.order_key = theRequest.order_key;
+        return theRequest;
+    }
+
+    let timer = ''
+    let form_data = {
+        order_key:'',
+        cryptocurrency:''
+    };
+
+
+    //页面一打开就执行弹层
+    layer.ready(function () {
+        GetRequest()
+
+        async function call_order () {
+            let timer = null
+            let res = await fetch('/order_status?order_key='+form_data.order_key)
+                .then(function (data){
+                    return data.json();
+                }).catch(function (ee){
+                    return {code:-1,msg:'Server error!'};
+                });
+
+            if(res?.data?.status === 'closed' || res?.data?.status === 'success'){
+                clearTimeout(timer);//清理定时任务
+                window.location.href = '/pay?order_key='+form_data.order_key;
+            }
+            else{
+                setTimeout(()=>{
+                    call_order()
+                },5000)
+            }
+        }
+        let orstatus = "<?php echo $order['status'];?>";
+
+        if(orstatus === 'closed' || orstatus === 'success'){
+        }
+        else{
+            call_order()
+        }
+    });
+
+</script>
+</html>

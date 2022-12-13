@@ -1,0 +1,255 @@
+
+<!--
+ * @FileDescription:
+ * @Author: ruokun Yin
+ * @Date: 2022-07-06 13:46:10
+ * @LastEditors: jianguo Wang
+ * @LastEditTime: 2022-11-10 17:23:08
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title i18n="title">Checkouts</title>
+    <link rel="stylesheet" href="/static/payment/css/reset.css">
+    <link rel="stylesheet" href="/static/payment/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/static/drop_down/css/style.css" />
+
+    <noscript><link rel="stylesheet" type="text/css" href="/static/drop_down/css/noJS.css" /></noscript>
+    <script type="text/javascript" src="/static/drop_down/js/modernizr.custom.79639.js"></script>
+
+</head>
+<body>
+<div class="main">
+    <div class="headBar">
+        <div class="title-centain">
+            <span>Checkouts</span>
+        </div>
+    </div>
+
+    <div class="pcHeader">
+        <img src="/static/payment/icon/logoNew.png" alt="" srcset="">
+        <span>|</span>
+        <span i18n="title">Checkouts</span>
+    </div>
+
+    <div class="body">
+
+        <div class="body_header">
+            <img class="pc_status_04" style="width: 48px;height:48px;margin: 24px;;" src="/static/payment/img/pc-loading.png" alt="">
+
+            <div >
+                <p class="pc_status_00" style=";">
+                    <span class="pcTipFont0">Order ID: </span>
+                    <span class="pcTipFont1"><b class="orderSn">{$order['order_id']}</b></span>
+                </p>
+                <!--                <p class="pc_status_00" style="margin-top: 10px;">-->
+                <!--                    <span class="pcTipFont0">订单来源：</span>-->
+                <!--                    <span class="pcTipFont1"><b class="orderSn">Woocommerce</b></span>-->
+                <!--                </p>-->
+                <p class="pc_status_00" style="margin-top: 10px;">
+                    <span class="pcTipFont0">Total: </span>
+                    <span class="pcTipFont1"><b class="orderSn">${$order['usd_amount']}</b></span>
+                </p>
+            </div>
+        </div>
+        <div class="pc-centainer">
+            <div class="pc_status_01" style=";">
+                <div class="typeContainerPc" style="justify-content: center;">
+
+                </div>
+                <div id="hiddAddrPc" style=""> </div>
+                <p style="margin-top: 14px;font-size: 20px;color: #EA3E32;padding-bottom: 40px;">
+                    Note: Please select the cryptocurrency you want to pay!
+                </p>
+            </div>
+            <div class="pc_status_02" style=";">
+                <div class="pc_status_022">
+                    <div class="pcTipFont" style="line-height: 25px;font-size: 20px">
+                        <div class="line_03 Num">
+                            <div class="wrapper-demo">
+                                <div id="dd" class="wrapper-dropdown-3" tabindex="1" style="width: 350px">
+                                    <span>Please select Cryptocurrency</span>
+                                    <ul class="dropdown">
+                                        <li><a href="#">USDT</a></li>
+                                        <li><a href="#">USDC</a></li>
+                                        <li><a href="#">ETH</a></li>
+                                        <li><a href="#">CNT</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pc_status_022">
+                    <div class="pcTipFont" style="line-height: 25px;font-size: 20px">
+                        <!--                        <div onclick="submit_confirm()" class="line_03 Num" style="color:#8AA8BD;background-color: #fcf4ee;margin-top: 170px;padding:10px 20px;border-radius: 20px">-->
+                        <!--                           Confirm-->
+                        <!--                        </div>-->
+
+                        <div data-confirm="no" onclick="submit_confirm(this)" class="line_03 Num" style="color:#fff;background-color: #2de06f;margin-top: 170px;padding:10px 30px;border-radius: 20px">
+                            Confirm
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script src="/static/payment/js/jquery-3.5.1.min.js"></script>
+<script src="/static/payment/js/utils.js"></script>
+<script src="/static/payment/js/layer/layer.js"></script>
+<script src="/static/payment/js/jquery.qrcode.min.js"></script>
+<script>
+    function GetRequest(){
+        let url = location.search;   //获取url中"?"符后的字串
+        let theRequest = {};
+        if (url.indexOf("?") != -1){
+            let str = url.substr(1);
+            let strs = str.split("&");
+            for (let i = 0; i < strs.length; i++){
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+
+                //解决中文参数问题
+                theRequest[strs[i].split("=")[0]] = decodeURI(strs[i].split("=")[1]);
+            }
+        }
+        form_data.order_key = theRequest.order_key;
+        return theRequest;
+    }
+
+    let timer = ''
+    let form_data = {
+        order_key:'',
+        cryptocurrency:''
+    };
+    //
+    // function upDateTime(endTime, now) {
+    //     if (timer) return
+    //     let newNow = changeDate(now);
+    //     $('#havTime').text(dateCount(endTime + 5000, newNow))
+    //     timer = setInterval(() => {
+    //         let dateTime = dateCount(endTime, newNow)
+    //         $('#havTime').text(dateTime)
+    //         $('.pchavTime').text(dateTime)
+    //         newNow = newNow + 1000
+    //         if (dateTime === '00:00') clearInterval(timer)
+    //     }, 1000);
+    //
+    // }
+    //
+    //
+    function loading() {
+        // console.log('!clickTag',!clickTag);
+        // if (!clickTag) {
+        let loading = layer.load(1, {
+            shade: [0.5, '#000'], //0.1透明度的白色背景
+            time:50000,
+        });
+        // }
+    }
+
+    //页面一打开就执行弹层
+    layer.ready(function () {
+        GetRequest()
+        // loading()
+        //
+        // timer2 = setTimeout(() => {
+        //     // 首次加载用loading
+        //     clickTag = true;
+        // }, 1000);
+    });
+
+    async function submit_confirm($_this) {
+        if(form_data.order_key?.length <= 0){
+            layer.msg('The order_key cannot be empty!');
+            return false;
+        }
+        if(form_data.cryptocurrency?.length <= 0){
+            layer.msg('Please select the cryptocurrency you want to pay!');
+            return false;
+        }
+        if(form_data.cryptocurrency !== 'USDT'){
+            layer.msg('It is not opened yet. Please wait!');
+            return false;
+        }
+        if($($_this).attr('data-confirm') === 'yes'){
+            layer.msg("Please wait, don't submit frequently!");
+            return false;
+        }
+        $($_this).attr('data-confirm','yes');
+        loading()
+
+        let res = await fetch('/create_payment',{
+            method:'post',
+            headers:{
+                "content-type":"application/json;charset=utf-8"
+            },
+            body: JSON.stringify(form_data)
+        }).then(function (data){
+            return data.json();
+        }).catch(function (ee){
+            return {code:-1,msg:'Server error!'};
+        });
+        if(res.code !== 1){
+            layer.msg(res.msg);
+            $($_this).attr('data-confirm','no');
+            return false;
+        }
+        window.location.href = '/pay?order_key='+form_data.order_key;
+    }
+
+</script>
+<script type="text/javascript">
+    function DropDown(el) {
+        this.dd = el;
+        this.placeholder = this.dd.children('span');
+        this.opts = this.dd.find('ul.dropdown > li');
+        this.val = '';
+        this.index = -1;
+        this.initEvents();
+    }
+
+    DropDown.prototype = {
+        initEvents : function() {
+            let obj = this;
+            obj.dd.on('click', function(event){
+                $(this).toggleClass('active');
+                return false;
+            });
+            obj.opts.on('click',function(){
+                let opt = $(this);
+                obj.val = opt.text();
+                obj.index = opt.index();
+                obj.placeholder.text(obj.val);
+                form_data.cryptocurrency = obj.val;
+
+            });
+        },
+
+        getValue : function() {
+            return this.val;
+        },
+
+        getIndex : function() {
+            return this.index;
+        }
+    }
+
+    $(function() {
+        let dd = new DropDown( $('#dd') );
+        $(document).click(function() {
+            // all dropdowns
+            $('.wrapper-dropdown-3').removeClass('active');
+        });
+    });
+</script>
+
+
+</html>

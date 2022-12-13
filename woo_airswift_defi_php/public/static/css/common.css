@@ -1,0 +1,130 @@
+*{
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: 0;
+}
+body{
+    margin: 0;
+}
+table, tbody, td, tfoot, th, thead, tr {
+    vertical-align: top;
+}
+button, input, label, select, textarea {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    display: inline-block;
+    white-space: normal;
+    background: 0 0;
+    line-height: normal;
+    font-size: 16px;
+    font-family: -apple-system,BlinkMacSystemFont,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+}
+
+[v-cloak]{
+    display: none!important;
+}
+
+
+
+@font-face {
+    font-family: "iconfont"; /* Project id 1251069 */
+    src: url('//at.alicdn.com/t/font_1251069_a6g1tdhkbpr.woff2?t=1650879664175') format('woff2'),
+    url('//at.alicdn.com/t/font_1251069_a6g1tdhkbpr.woff?t=1650879664175') format('woff'),
+    url('//at.alicdn.com/t/font_1251069_a6g1tdhkbpr.ttf?t=1650879664175') format('truetype');
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-tishi:before {
+    content: "\e713";
+}
+
+.icon-fuzhi:before {
+    content: "\e612";
+}
+
+.icon-daojishi:before {
+    content: "\e618";
+}
+
+.icon-dengdai:before {
+    content: "\e619";
+}
+
+.icon-shanchu:before {
+    content: "\e6cd";
+}
+
+.icon-vip:before {
+    content: "\e68a";
+}
+
+.icon-ic_settled:before {
+    content: "\e614";
+}
+
+.icon-sousuo:before {
+    content: "\e666";
+}
+
+
+
+
+.el-message-box__wrapper {
+    /*background-color: rgb(0 0 0/0.7)!important;*/
+    background-color: rgba(23 26 27/ 0.8)!important;
+}
+
+.el-message-box{
+    background-color: rgb(40 ,44 ,46)!important;
+    border-width: 0px!important;
+    width: 339px!important;
+    border-radius: 20px!important;
+}
+.el-message-box__header{
+    padding: 28px 15px 0 15px!important;
+}
+.el-message-box__title{
+    text-align: center!important;
+}
+
+.el-message-box__content{
+    margin: 21px 50px 4px 50px!important;
+    padding:  40px 0!important;
+    border-top: 1px solid rgb(0 0 0)!important;
+    color: rgb(196 196 196)!important;
+    /*font-size: 17px!important;*/
+    /*line-height: 21px!important;*/
+
+}
+.el-message-box__btns{
+    text-align: center!important;
+    padding: 5px 15px 18px 15px!important;
+}
+.el-message-box__title span{
+    color: rgb(255 74 74)!important;
+}
+.btn-confirm{
+    border-width: 0!important;
+    background: radial-gradient(farthest-corner at 35% 20%,rgb(255 191 71), rgb(236 116 255))!important; /* 标准的语法（必须放在最后） */
+    padding: 18px 110px!important;
+    font-size: 19px!important;
+    line-height: 23px!important;
+    border-radius: 15px!important;
+}
+
+.flex-row{
+    display: flex!important;
+    display: -ms-flexbox!important;
+    flex-direction: row;
+    -ms-flex-direction: row;
+    align-items: center;
+
+}

@@ -1,0 +1,11 @@
+.idea
+.htaccess
+.vscode
+*.log
+vendor
+runtime
+public/merchant
+public/static/imgs/currency
+public/.user.ini
+view-admin/node_modules
+composer.lock
