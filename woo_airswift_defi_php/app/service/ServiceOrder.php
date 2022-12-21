@@ -123,15 +123,7 @@ class ServiceOrder extends Base
             'chain_id' => 1,
             'currency' =>$d['crypto_currency'],
         ];
-        $d11 = [
-            'do'=>'POST',
-            'url'=>$url,
-            'data'=>json_encode($data1),
-            'qt'=>[
-                'Content-type: application/json;charset=UTF-8'
-            ]
-        ];
-        $php_result = json_decode(chttp($d11),true);
+        $php_result = json_decode(curl_api($url,'POST',$data1),true);
         if ($php_result['success'] !== true || empty($php_result['msg'])) {
             return r_fail('Failed to create payment!');
         }

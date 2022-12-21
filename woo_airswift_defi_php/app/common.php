@@ -160,6 +160,31 @@ if (!function_exists('to_utf8')) {
 }
 
 
+function curl_api($url = '',$method = 'GET',$data = []){
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => strtoupper($method),
+        CURLOPT_POSTFIELDS =>json_encode($data),
+        CURLOPT_HTTPHEADER => array(
+//            'User-Agent: Apifox/1.0.0 (https://www.apifox.cn)',
+            'Content-Type: application/json'
+        ),
+    ));
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+    return $response;
+}
+
+
 //统一返回方法
 function rs($msg = '', $code = -1, $data = '', $qt = [])
 {

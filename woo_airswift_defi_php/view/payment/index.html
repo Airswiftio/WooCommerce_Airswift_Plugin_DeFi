@@ -97,7 +97,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -150,7 +149,7 @@
         // if (!clickTag) {
         let loading = layer.load(1, {
             shade: [0.5, '#000'], //0.1透明度的白色背景
-            time:50000,
+            time:10000,
         });
         // }
     }
@@ -175,7 +174,7 @@
             layer.msg('Please select the cryptocurrency you want to pay!');
             return false;
         }
-        if(form_data.cryptocurrency !== 'USDT'){
+        if(form_data.cryptocurrency !== 'USDC'){
             layer.msg('It is not opened yet. Please wait!');
             return false;
         }
@@ -185,7 +184,6 @@
         }
         $($_this).attr('data-confirm','yes');
         loading()
-
         let res = await fetch('/create_payment',{
             method:'post',
             headers:{
