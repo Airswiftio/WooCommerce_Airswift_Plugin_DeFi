@@ -9,6 +9,7 @@ class Payment extends Base
 
     public function index()
     {
+        $d = input();
         $order = Order::where('order_sn',$d['order_key'])->findOrEmpty()->toArray();
         $data = ['code'=>1,'order'=>$order];
         if(in_array($order['status'],['success','closed'])){

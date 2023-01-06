@@ -110,7 +110,8 @@ class ServiceOrder extends Base
         if($order['status'] === 'created' && $order['payment_create_time'] > 0){
             return r_ok('ok');
         }
-        $amount_in_cent = ceil($order['usd_amount']*100);
+        $amount_in_cent = intval($order['usd_amount']*100);
+//        $amount_in_cent = ceil($order['usd_amount']*100);
         if(empty($order)){
             return r_fail('The order not exist!');
         }
@@ -131,7 +132,7 @@ class ServiceOrder extends Base
         $data = [
             'payment_num'=>$payment['payment_num'],
             'crypto_currency'=>$d['crypto_currency'],
-            'crypto_amount'=>eth_format_num($payment['amount'],$payment['currency_decimal_count']),
+            'crypto_amount'=>eth_format_num($payment['friendly_amount'],$payment['currency_decimal_count']),
             'collection_address'=>$payment['collection_address'],
             'status'=>$payment['status'],
             'payment_json'=>json_encode($payment),
