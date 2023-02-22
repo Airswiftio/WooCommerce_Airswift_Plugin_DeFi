@@ -265,7 +265,7 @@ function airswift_defi_payment_init() {
                 ];
                 $d = [
                     'do'=>'POST',
-                    'url'=>"http://airswift-defi.rome9.com/create_order",
+                    'url'=>"http://woocommerce-defi.airswift.io/create_order",
                     'data'=>json_encode($data),
                     'qt'=>[
                         'Content-type: application/json;charset=UTF-8'

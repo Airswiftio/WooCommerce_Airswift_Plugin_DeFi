@@ -115,7 +115,7 @@ class ServiceOrder extends Base
         if(empty($order)){
             return r_fail('The order not exist!');
         }
-       $url = "http://34.221.50.218:23456/open_api/payment";
+        $url = env('api.api_url', '/')."/open_api/payment";
         $data1  = [
             'access_key' => $order['app_key'],
             'title' => 'test payment',
@@ -153,7 +153,7 @@ class ServiceOrder extends Base
         $orders = Order::where('source', 'woocommerce')->where('is_call', 2)->select()->toArray();
         foreach ($orders as $vv){
             if($vv['payment_num'] !== ''){
-                $url = "http://34.221.50.218:23456/open_api/payment?payment_num={$vv['payment_num']}";
+                $url = env('api.api_url', '/')."/open_api/payment?payment_num={$vv['payment_num']}";
                 $d1 = [
                     'do'=>'GET',
                     'url'=>$url

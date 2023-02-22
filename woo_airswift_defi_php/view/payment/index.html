@@ -183,7 +183,9 @@
             return false;
         }
         $($_this).attr('data-confirm','yes');
-        loading()
+        let index_wait = layer.load(1, {  //发送请求前调用load方法
+            shade: [0.5, '#000'],  //0.5透明度的白色背景
+        });
         let res = await fetch('/create_payment',{
             method:'post',
             headers:{
@@ -195,6 +197,7 @@
         }).catch(function (ee){
             return {code:-1,msg:'Server error!'};
         });
+        layer.close(index_wait);
         if(res.code !== 1){
             layer.msg(res.msg);
             $($_this).attr('data-confirm','no');
