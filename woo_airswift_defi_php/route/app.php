@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
+Route::get('/', 'payment/home');
 Route::get('payment', 'payment/index');
 Route::get('pay', 'payment/pay');
 

@@ -7,6 +7,11 @@ use think\facade\Cache;
 class Payment extends Base
 {
 
+    public function home()
+    {
+       echo 'Hello';die;
+    }
+
     public function index()
     {
         $d = input();

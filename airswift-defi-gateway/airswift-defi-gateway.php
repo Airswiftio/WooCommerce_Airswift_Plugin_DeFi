@@ -67,6 +67,8 @@ function airswift_defi_payment_init() {
                 $this->instructions = $this->get_option( 'instructions', $this->description );
                 $this->appKey = $this->get_option('appKey','');
                 $this->callBackUrl = add_query_arg('wc-api', 'wc_airswift_defi_gateway', home_url('/'));
+                $this->testApiUrl = $this->get_option('testApiUrl','');
+
                 /*$this->appSecret = $this->get_option('appSecret','');
                 $this->signKey = $this->get_option('signKey','');
                 $this->callBackUrl = add_query_arg('wc-api', 'wc_airswift_defi_gateway', home_url('/'));*/
@@ -123,6 +125,12 @@ function airswift_defi_payment_init() {
                         'title' => __('appKey', 'airswift-pay-woo'),
                         'type' => 'text',
                         'description' => __('Please enter your AirSwift DeFi appKey.', 'airswift-pay-woo'),
+                        'default' => '',
+                    ),
+                    'testApiUrl' => array(
+                        'title' => __('testApiUrl', 'airswift-pay-woo'),
+                        'type' => 'text',
+                        'description' => __('Optional.', 'airswift-pay-woo'),
                         'default' => '',
                     ),
                     /*     'appSecret' => array(
@@ -263,9 +271,13 @@ function airswift_defi_payment_init() {
                     'amount' => $total_amount,
                     'callback_url'=>$this->callBackUrl
                 ];
+                $api_url = $this->testApiUrl;
+                if(empty($api_url) ){
+                    $api_url = 'http://woocommerce-defi.airswift.io';
+                }
                 $d = [
                     'do'=>'POST',
-                    'url'=>"http://woocommerce-defi.airswift.io/create_order",
+                    'url'=>$api_url."/create_order",
                     'data'=>json_encode($data),
                     'qt'=>[
                         'Content-type: application/json;charset=UTF-8'
