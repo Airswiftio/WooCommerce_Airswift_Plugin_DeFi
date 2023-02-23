@@ -175,7 +175,7 @@
         }
         let currency = form_data.cryptocurrency.toUpperCase();
         console.log('currency',currency);
-        if(currency !== 'ETH' || currency !== 'USDC' || currency !== 'DAI'){
+        if(!(currency === 'ETH' || currency === 'USDC' || currency === 'DAI')){
             layer.msg('It is not opened yet. Please wait!');
             return false;
         }
