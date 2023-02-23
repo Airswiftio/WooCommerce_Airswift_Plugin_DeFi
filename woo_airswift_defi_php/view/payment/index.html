@@ -173,7 +173,9 @@
             layer.msg('Please select the cryptocurrency you want to pay!');
             return false;
         }
-        if(form_data.cryptocurrency !== 'ETH' || form_data.cryptocurrency !== 'USDC' || form_data.cryptocurrency !== 'DAI'){
+        let currency = form_data.cryptocurrency.toUpperCase();
+        console.log('currency',currency);
+        if(currency !== 'ETH' || currency !== 'USDC' || currency !== 'DAI'){
             layer.msg('It is not opened yet. Please wait!');
             return false;
         }
