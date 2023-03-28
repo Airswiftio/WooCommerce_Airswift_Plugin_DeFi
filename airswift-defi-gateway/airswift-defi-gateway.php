@@ -59,15 +59,15 @@ function airswift_defi_payment_init() {
                 $this->id   = 'airswift_defi_payment';
 //                $this->icon = apply_filters( 'woocommerce_airswift_icon',plugins_url('assets/airswift_logo.png', __FILE__ ) );
                 $this->has_fields = false;
-                $this->method_title = __( 'AirSwift DeFi Payment', 'airswift-pay-woo');
-                $this->method_description = __( 'Pay with AirSwift DeFi Payment.', 'airswift-pay-woo');
+                $this->method_title = __( 'AirSwift DeFi Payment', 'airswift-defi-pay-woo');
+                $this->method_description = __( 'Pay with AirSwift DeFi Payment.', 'airswift-defi-pay-woo');
 
                 $this->title = $this->get_option( 'title' );
                 $this->description = $this->get_option( 'description' );
                 $this->instructions = $this->get_option( 'instructions', $this->description );
                 $this->appKey = $this->get_option('appKey','');
                 $this->callBackUrl = add_query_arg('wc-api', 'wc_airswift_defi_gateway', home_url('/'));
-                $this->testApiUrl = $this->get_option('testApiUrl','');
+                $this->testMode = $this->get_option('testMode','');
 
                 /*$this->appSecret = $this->get_option('appSecret','');
                 $this->signKey = $this->get_option('signKey','');
@@ -95,54 +95,54 @@ function airswift_defi_payment_init() {
             public function init_form_fields() {
                 $this->form_fields = apply_filters( 'woo_airswift_pay_fields', array(
                     'enabled' => array(
-                        'title' => __( 'Enable/Disable', 'airswift-pay-woo'),
+                        'title' => __( 'Enable/Disable', 'airswift-defi-pay-woo'),
                         'type' => 'checkbox',
-                        'label' => __( 'Enable or Disable AirSwift DeFi Payment', 'airswift-pay-woo'),
+                        'label' => __( 'Enable or Disable AirSwift DeFi Payment', 'airswift-defi-pay-woo'),
                         'default' => 'no'
                     ),
                     'title' => array(
-                        'title' => __( 'Title', 'airswift-pay-woo'),
+                        'title' => __( 'Title', 'airswift-defi-pay-woo'),
                         'type' => 'text',
-                        'default' => __( 'AirSwift DeFi Payment', 'airswift-pay-woo'),
+                        'default' => __( 'AirSwift DeFi Payment', 'airswift-defi-pay-woo'),
                         'desc_tip' => true,
-                        'description' => __( 'Title that customers will see in the checkout page.', 'airswift-pay-woo')
+                        'description' => __( 'Title that customers will see in the checkout page.', 'airswift-defi-pay-woo')
                     ),
                     'description' => array(
-                        'title' => __( 'Description', 'airswift-pay-woo'),
+                        'title' => __( 'Description', 'airswift-defi-pay-woo'),
                         'type' => 'textarea',
-                        'default' => __( "Pay with AirSwift DeFi Payment.", 'airswift-pay-woo'),
+                        'default' => __( "Pay with AirSwift DeFi Payment.", 'airswift-defi-pay-woo'),
                         'desc_tip' => true,
-                        'description' => __( 'Description customers will see in the checkout page.', 'airswift-pay-woo')
+                        'description' => __( 'Description customers will see in the checkout page.', 'airswift-defi-pay-woo')
                     ),
                     'instructions' => array(
-                        'title' => __( 'Instructions', 'airswift-pay-woo'),
+                        'title' => __( 'Instructions', 'airswift-defi-pay-woo'),
                         'type' => 'textarea',
-                        'default' => __( 'Default instructions', 'airswift-pay-woo'),
+                        'default' => __( 'Default instructions', 'airswift-defi-pay-woo'),
                         'desc_tip' => true,
-                        'description' => __( 'Instructions that will be added to the thank you page and odrer email', 'airswift-pay-woo')
+                        'description' => __( 'Instructions that will be added to the thank you page and odrer email', 'airswift-defi-pay-woo')
                     ),
                     'appKey' => array(
-                        'title' => __('appKey', 'airswift-pay-woo'),
+                        'title' => __('appKey', 'airswift-defi-pay-woo'),
                         'type' => 'text',
-                        'description' => __('Please enter your AirSwift DeFi appKey.', 'airswift-pay-woo'),
+                        'description' => __('Please enter your AirSwift DeFi appKey.', 'airswift-defi-pay-woo'),
                         'default' => '',
                     ),
-                    'testApiUrl' => array(
-                        'title' => __('testApiUrl', 'airswift-pay-woo'),
-                        'type' => 'text',
-                        'description' => __('Optional.', 'airswift-pay-woo'),
-                        'default' => '',
+                    'testMode' => array(
+                        'title' => __( 'Enable/Disable', 'airswift-defi-pay-woo'),
+                        'type' => 'checkbox',
+                        'label' => __( 'Enable or Disable testMode', 'airswift-defi-pay-woo'),
+                        'default' => 'no'
                     ),
                     /*     'appSecret' => array(
-                             'title' => __('appSecret', 'airswift-pay-woo'),
+                             'title' => __('appSecret', 'airswift-defi-pay-woo'),
                              'type' => 'text',
-                             'description' => __('Please enter your AirSwift DeFi appSecret.', 'airswift-pay-woo'),
+                             'description' => __('Please enter your AirSwift DeFi appSecret.', 'airswift-defi-pay-woo'),
                              'default' => '',
                          ),
                          'signKey' => array(
-                             'title' => __('signKey', 'airswift-pay-woo'),
+                             'title' => __('signKey', 'airswift-defi-pay-woo'),
                              'type' => 'text',
-                             'description' => __('Please enter your AirSwift DeFi signKey.', 'airswift-pay-woo'),
+                             'description' => __('Please enter your AirSwift DeFi signKey.', 'airswift-defi-pay-woo'),
                              'default' => '',
                          ),*/
 
@@ -239,6 +239,8 @@ function airswift_defi_payment_init() {
             }
 
             public function process_payment( $order_id ):array {
+                $api_url = $this->testMode === 'no' ? 'http://woocommerce-defi.airswift.io':'http://uat-woocommerce-defi.airswift.io';
+
                 //todo
                 // 1.发送订单信息到插件服务器（防篡改，只有特定状态的订单才能创建中转订单）
                 // 2.插件服务器创建中转订单，转换汇率成美元，并返回订单key给插件
@@ -271,10 +273,6 @@ function airswift_defi_payment_init() {
                     'amount' => $total_amount,
                     'callback_url'=>$this->callBackUrl
                 ];
-                $api_url = $this->testApiUrl;
-                if(empty($api_url) ){
-                    $api_url = 'http://woocommerce-defi.airswift.io';
-                }
                 $d = [
                     'do'=>'POST',
                     'url'=>$api_url."/create_order",
@@ -289,7 +287,7 @@ function airswift_defi_payment_init() {
                     return ['result'=>'success', 'messages'=>home_notice('Something went wrong, please contact the merchant for handling(3)!')];
                 }
                 else{
-                    $order->update_status('processing',  __( 'Awaiting AirSwift DeFi Payment', 'airswift-pay-woo'));
+                    $order->update_status('processing',  __( 'Awaiting AirSwift DeFi Payment', 'airswift-defi-pay-woo'));
                     return array(
                         'result'   => 'success',
                         'redirect' => $res['data'],
