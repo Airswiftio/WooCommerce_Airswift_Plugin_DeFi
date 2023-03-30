@@ -74,9 +74,11 @@
                                 <div id="dd" class="wrapper-dropdown-3" tabindex="1" style="width: 350px">
                                     <span>Please select Cryptocurrency</span>
                                     <ul class="dropdown">
-                                        <li><a href="#">ETH</a></li>
+<!--                                        <li><a href="#">ETH</a></li>-->
+<!--                                        <li><a href="#">USDC</a></li>-->
+<!--                                        <li><a href="#">DAI</a></li>-->
+                                        <li><a href="#">USDT</a></li>
                                         <li><a href="#">USDC</a></li>
-                                        <li><a href="#">DAI</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -174,8 +176,12 @@
             return false;
         }
         let currency = form_data.cryptocurrency.toUpperCase();
-        console.log('currency',currency);
-        if(!(currency === 'ETH' || currency === 'USDC' || currency === 'DAI')){
+        // console.log('currency',currency);
+        // if(!(currency === 'ETH' || currency === 'USDC' || currency === 'DAI')){
+        //     layer.msg('It is not opened yet. Please wait!');
+        //     return false;
+        // }
+        if(!(currency === 'USDT' || currency === 'USDC')){
             layer.msg('It is not opened yet. Please wait!');
             return false;
         }
